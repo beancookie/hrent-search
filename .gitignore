@@ -7,4 +7,4 @@
 *.iml
 out
 gen
-__pycahce__
+*__pycahce__
