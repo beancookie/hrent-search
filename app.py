@@ -1,20 +1,17 @@
+
 from flask import Flask
-from flask import request, jsonify
-from elasticsearch_dsl import Search
-from elasticsearch import Elasticsearch
+from flask_restful import request, abort, Api, Resource
+from resources.query import Query
+
 app = Flask(__name__)
-client = Elasticsearch('193.112.33.124:9200')
+api = Api(app)
 
-@app.route('/search')
-def search():
-    query = request.get_json()
-    print(query)
-    s = Search(using=client, index="hrent") \
-        .query("match", title=query['title'])
 
-    response = s.execute()
-    return jsonify(response.to_dict()['hits'])
+##
+## Actually setup the Api resource routing here
+##
+api.add_resource(Query, '/query')
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
