@@ -9,7 +9,8 @@ class Query(Resource):
     def post(self):
         req = request.get_json()
         s = Search(using=client, index='hrent') \
-            .query('match', title=req['title'])
+            .filter('range', price={'gt': -1}) \
+            .query('multi_match', query=req['title'], fields=['title', 'detail', 'address', 'traffic', 'house_type'])
 
         res = s.execute().to_dict()
         return res['hits']
