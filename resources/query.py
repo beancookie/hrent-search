@@ -17,9 +17,9 @@ class Query(Resource):
             search = search.filter('range', price={'gte': int(params['price']) - 1000, 'lte': int(params['price'])})
         
         if 'decorate' in params:
-            search = search.query('term', decorate=params['decorate']) 
+            search = search.query('match', decorate=params['decorate']) 
         
         if 'rent_type' in params:
-            search = search.query('term', rent_type=params['rent_type']) 
+            search = search.query('match', rent_type=params['rent_type']) 
         res = search.execute().to_dict()
         return res['hits']
