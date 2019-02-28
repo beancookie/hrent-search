@@ -14,7 +14,7 @@ class Query(Resource):
             .query('multi_match', query=params['keyword'], fields=['title', 'detail', 'address', 'traffic', 'house_type'])
         
         if 'price' in params:
-            search = search.filter('range', price={'gte': int(params['price']), 'lte': int(params['price']) + 1000})
+            search = search.filter('range', price={'gte': int(params['price']) - 1000, 'lte': int(params['price'])})
         
         if 'decorate' in params:
             search = search.query('term', decorate=params['decorate']) 
