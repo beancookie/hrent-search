@@ -10,12 +10,14 @@ class Query(Resource):
         params = request.get_json()['params']
         
         search = Search(using=client, index='hrent') \
-            .filter('range', price={'gt': -1}) \
+            .filter('range', price={'gt': 300}) \
             .query('multi_match', query=params['keyword'], fields=['title', 'detail', 'address', 'traffic', 'house_type'])
         
         if 'price' in params:
-            search = search.filter('range', price={'gte': int(params['price']) - 1000, 'lte': int(params['price'])})
-        
+            if int(params['price']) != -1:
+                search = search.filter('range', price={'gte': int(params['price']) - 1000, 'lte': int(params['price'])})
+            else:
+                search = search.filter('range', price={'gt': 300})
         if 'decorate' in params:
             search = search.query('match', decorate=params['decorate']) 
         
