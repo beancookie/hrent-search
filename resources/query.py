@@ -9,8 +9,8 @@ class Query(Resource):
     def post(self):
         params = request.get_json()['params']
         print(params)
-        if 'id' in params:
-            return Search(using=client, index='hrent').query('match', _id=params['id']).execute().to_dict()
+        if 'url' in params:
+            return Search(using=client, index='hrent').query('match', url=params['url']).execute().to_dict()
         
         search = Search(using=client, index='hrent') \
             .params(size=50) \
